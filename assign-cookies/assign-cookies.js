@@ -3,6 +3,8 @@
  * @param {number[]} s
  * @return {number}
  11:50
+ 12:20 original solution Time: 252 ms (5.25%), Space: 42.3 MB (16.67%)
+ 12:37 optimized (191 ms, faster than 10.49% | 40.8 MB, less than 97.22%)
  */
 var findContentChildren = function(g, s) {
     // for each child
@@ -12,17 +14,15 @@ var findContentChildren = function(g, s) {
     g.sort((a, b) => a - b);
     s.sort((a, b) => a - b);
     
-    for (var child = 0; child < g.length; child++) {
-        var childMinReq = g[child];
-        var cookieFound = false;
-        var cookieIndex = 0;
-        
-        while (cookieFound === false && cookieIndex < s.length) {
-            if (s[cookieIndex] >= childMinReq) {
-                s.splice(cookieIndex, 1);
-                result++;
-                cookieFound = true;
-            }
+    var cookieIndex = 0;
+    var childIndex = 0;
+    
+    while (childIndex < g.length && cookieIndex < s.length) {
+        if (g[childIndex] <= s[cookieIndex]) {
+            result++;
+            cookieIndex++;
+            childIndex++;
+        } else {
             cookieIndex++;
         }
     }
